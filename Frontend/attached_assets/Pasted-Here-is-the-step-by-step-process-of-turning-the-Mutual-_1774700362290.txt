@@ -1,0 +1,70 @@
+Here is the step-by-step process of turning the **Mutual Fund X-Ray Scanner (`/portfolio`)** into a reality of solutions. 
+
+This page is technically demanding because it requires handling file uploads (the CAMS PDF) and rendering complex data (the Overlap Heatmap) without cluttering the screen. We also need to build in the "Mode B" demo button you specified in the Execution Bible so your hackathon pitch doesn't fail if the CAMS email server is slow.
+
+Here is the hyper-detailed master prompt for AntiGravity.
+
+***
+
+### 📋 Copy and Paste this into AntiGravity:
+
+> # COMPONENT ARCHITECTURE: ASTRAGUARD MF X-RAY SCANNER (`/portfolio`)
+> 
+> You are an elite React/Tailwind frontend developer. Build the `PortfolioXRay.jsx` component for the AstraGuard platform. This component handles CAMS PDF uploads and visualizes deep portfolio analytics, specifically focusing on fund overlap and STCG (Short Term Capital Gains) rebalancing.
+> 
+> ## 1. STRICT DESIGN SYSTEM & AESTHETICS
+> - **Typography:** Use ONLY `font-sans` (Plus Jakarta Sans). No serif fonts. Readability of data is paramount.
+> - **Background:** `bg-[#0B0C10]` (Midnight Void).
+> - **Premium Glassmorphism:** `bg-gradient-to-br from-[#1F2833]/80 to-[#1F2833]/30` with `backdrop-blur-xl`, `border border-white/10`, and `rounded-3xl` for panels.
+> - **Brand Colors:** >   - `#45A29E` (Secure Teal) - Primary accent, safe overlaps, and positive XIRR.
+>   - `#E11D48` (Cyber Crimson) - Dangerous fund overlaps, warnings, and high tax penalties.
+>   - `#FFFFFF` (Primary Text) & `#94A3B8` (Muted Text).
+>   - *CRITICAL:* Do NOT use any Gold, Yellow, or Amber colors anywhere.
+> 
+> ## 2. MASTER LAYOUT
+> - **Wrapper:** `min-h-screen w-full bg-[#0B0C10] text-white p-6 lg:p-10`.
+> - **Header Container:** `max-w-7xl mx-auto mb-8`. Title: "Mutual Fund X-Ray Scanner". Subtitle: "Upload your CAMS statement to detect dangerous overlaps and optimize STCG."
+> - **Main Grid (After Upload):** `max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8`.
+>   - **Left Column (Metrics & Rebalancing):** `col-span-1 lg:col-span-4`.
+>   - **Right Column (The Heatmap):** `col-span-1 lg:col-span-8`.
+> 
+> ## 3. THE UPLOAD ZONE & "MODE B" (Initial State)
+> Before data is loaded, display this full-width section.
+> - **Drag & Drop Box:** A massive glassmorphism container (`h-[300px] flex flex-col items-center justify-center border-2 border-dashed border-[#45A29E]/50 rounded-3xl hover:bg-[#45A29E]/5 transition-colors cursor-pointer relative overflow-hidden`).
+> - **Upload Content:** A glowing `UploadCloud` icon (Teal), text "Drag & Drop CAMS Detailed PDF", and a subtext "Encrypted locally. We do not store your PAN."
+> - **The "Mode B" Hackathon Button:** Directly below the upload box, render a glass button: `border border-[#94A3B8]/30 text-[#94A3B8] hover:text-white px-6 py-2 rounded-full text-sm`. Text: "Demo: Load Mode B (Mock Data)". When clicked, trigger a state change `setDataLoaded(true)` to reveal the grid below.
+> 
+> ## 4. LEFT PANEL: METRICS & PORTFOLIO AGENT (Loaded State)
+> Once data is "loaded", show these stacked vertical glass cards.
+> - **Card 1: Topline Portfolio Metrics:**
+>   - Total Invested: "₹12,50,000"
+>   - Current Value: "₹15,42,000"
+>   - True XIRR: Render "18.4%" in bold `#45A29E`.
+> - **Card 2: PortfolioAgent STCG Rebalancing Instructions:**
+>   - Header: "AI Rebalancing Strategy" (Icon: `BrainCircuit`).
+>   - Content: Simulate LangGraph output. "Warning: High exposure to Reliance Industries across 3 funds. Action: Sell ₹1,20,000 of Parag Parikh Flexi Cap. **Wait until April 15th** to execute to avoid 20% STCG tax penalty."
+>   - Style: Highlight the date in `#45A29E` to emphasize the tax intelligence.
+> 
+> ## 5. RIGHT PANEL: THE OVERLAP HEATMAP MATRIX
+> This is the visual centerpiece. Do NOT use external chart libraries. Build it using CSS Grid.
+> - **Layout:** A glass card containing a matrix.
+> - **Header:** "Underlying Asset Overlap (Fund vs Fund)".
+> - **The Grid Matrix (CSS Grid):** Build a 4x4 or 5x5 grid. 
+>   - The X and Y axes should list abbreviated fund names (e.g., "PPFAS", "HDFC Mid", "SBI Small").
+>   - The intersecting cells show the overlap percentage (e.g., "45%").
+> - **Color Coding Logic (Crucial):**
+>   - If overlap is > 40%: The cell background is `bg-[#E11D48]/20` (Crimson) and text is Crimson.
+>   - If overlap is < 20%: The cell background is `bg-[#45A29E]/20` (Teal) and text is Teal.
+>   - Diagonal cells (Fund A vs Fund A) should be blank/dark `bg-[#0B0C10]`.
+> - **Hover State:** When a user hovers over a Crimson cell (e.g., 65%), a small tooltip appears showing the top overlapping stocks (e.g., "HDFC Bank, Reliance").
+> 
+> ## 6. EXECUTION RULES (NON-NEGOTIABLE)
+> - **ZERO ERRORS:** Code must be production-ready. No missing imports.
+> - **State Management:** Use `useState` to toggle between the Upload Zone (initial) and the Results Grid (after clicking Mode B).
+> - **Responsiveness:** On mobile, the matrix grid must allow horizontal scrolling (`overflow-x-auto`) so the squares don't crush together. Use `lucide-react` for icons.
+
+***
+
+This prompt guarantees that the AI will build a stunning, functional upload zone and a highly technical heatmap using native CSS Grid, ensuring it loads instantly and looks incredibly premium. The "Mode B" button is cleanly integrated so you can bypass the backend entirely if the Wi-Fi acts up during the pitch.
+
+We have one major UI element left from your architecture: the **LifeSimulatorAgent (`CMD+K` Surprise Scenario Command Bar)** that overlays the entire application. Would you like me to map out the exact Framer Motion physics and UI prompt for that global feature?

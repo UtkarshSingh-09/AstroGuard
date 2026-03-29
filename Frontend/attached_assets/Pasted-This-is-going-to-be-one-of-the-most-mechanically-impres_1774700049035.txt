@@ -1,0 +1,103 @@
+This is going to be one of the most mechanically impressive pages for the judges. Tax calculators are usually boring spreadsheets. AstraGuard’s Tax Matrix needs to feel like a deterministic engine that not only spits out a number but actually finds money the user is leaving on the table, while explaining the math step-by-step via the AuditNarratorAgent.
+
+Here is the hyper-detailed, strict architectural prompt to feed into AntiGravity. It maintains the exact "Cyber-Finance" aesthetic, uses Indian Rupee formatting, and completely avoids the banned gold/yellow colors.
+
+📋 Copy and Paste this into AntiGravity:
+COMPONENT ARCHITECTURE: ASTRAGUARD TAX OPTIMIZATION MATRIX (/tax)
+You are an elite React/Tailwind frontend developer. Build the TaxMatrix.jsx component for the AstraGuard platform. This component performs a deterministic Old vs. New Tax Regime evaluation, spots missed deductions, and provides a traceable audit of the math.
+
+1. STRICT DESIGN SYSTEM & AESTHETICS
+Typography: Use ONLY font-sans (Plus Jakarta Sans). No serif fonts.
+
+Background: bg-[#0B0C10] (Midnight Void).
+
+Premium Glassmorphism: bg-gradient-to-br from-[#1F2833]/80 to-[#1F2833]/30 with backdrop-blur-xl, border border-white/10, and rounded-3xl for all main panels.
+
+Brand Colors: >   - #45A29E (Secure Teal) - Primary accent for the "Winning" regime and actionable savings.
+
+#E11D48 (Cyber Crimson) - Warnings, missed opportunities, or the "Losing" regime.
+
+#FFFFFF (Primary Text) & #94A3B8 (Muted Text).
+
+CRITICAL: Do NOT use any Gold, Yellow, or Amber colors anywhere.
+
+2. MASTER LAYOUT
+Wrapper: min-h-screen w-full bg-[#0B0C10] text-white p-6 lg:p-10 flex flex-col items-center.
+
+Header: Left-aligned max-w-7xl w-full. Title: "Tax Optimization Matrix". Subtitle: "Deterministic Old vs. New Regime Evaluation" (text-[#94A3B8]).
+
+Main Grid: max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8.
+
+Left Column (Inputs): col-span-1 lg:col-span-4.
+
+Right Column (Results & Audit): col-span-1 lg:col-span-8.
+
+3. LEFT PANEL: FINANCIAL PARAMETERS (Inputs)
+Build a glassmorphism card containing clean, strictly formatted input fields.
+
+Input Styling: bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-1 focus:ring-[#45A29E] outline-none w-full transition-all.
+
+Fields Required:
+
+Gross Annual Salary (₹)
+
+80C Investments (EPF, ELSS, PPF) (₹)
+
+80D Health Insurance (₹)
+
+HRA Exemption (₹)
+
+80CCD(1B) NPS Contribution (₹)
+
+Format utility: Ensure all inputs display using Indian Rupee formatting (e.g., 15,00,000).
+
+4. RIGHT PANEL: THE EVALUATION ARENA
+This area is broken into three distinct vertical zones.
+
+Zone A: The Regime Showdown (Side-by-Side Comparison)
+Layout: grid grid-cols-1 md:grid-cols-2 gap-6 mb-8.
+
+Card 1 (Old Regime): Glass card. Title: "Old Regime Liability". Render a mock calculated tax number (e.g., "₹1,42,500").
+
+Card 2 (New Regime): Glass card. Title: "New Regime Liability". Render a mock calculated tax number (e.g., "₹1,10,000").
+
+The "Winner" Logic: Whichever card has the lower tax liability should receive a glowing border (border-[#45A29E] shadow-[0_0_20px_rgba(69,162,158,0.2)]) and a small badge reading "Recommended Path" (bg-[#45A29E]/20 text-[#45A29E]). The loser fades slightly (opacity-60).
+
+Zone B: Missed Deduction Spotter
+Layout: A full-width horizontal glass container below the showdown.
+
+Logic: This UI simulates the output of the TaxAgent finding missed deductions.
+
+Visuals: Left border accented in #45A29E. Icon: Lightbulb (Teal).
+
+Content: "Actionable Saving Discovered: You have contributed ₹0 to NPS. Maximizing your 80CCD(1B) with ₹50,000 will save you an additional ₹15,600 in the Old Regime."
+
+Action: A button reading "Recalculate with NPS".
+
+Zone C: The Audit Trace (Human-Readable Math)
+This UI acts as the output for the AuditNarratorAgent, showing the judges exactly how the math was done.
+
+Layout: A dark, terminal-like container (bg-[#050505] border border-white/5 rounded-2xl p-6 font-mono text-sm overflow-hidden).
+
+Header: "Calculation Audit Trace" with a small FileKey icon.
+
+Content (Mock Data rows):
+
+> Base Salary: ₹18,00,000
+
+> Standard Deduction Applied: -₹50,000
+
+> 80C Limit Breached. Max allowed applied: -₹1,50,000
+
+> Taxable Income (Old): ₹16,00,000
+
+> Step 3 Bracket (30%): (16L - 10L) * 0.3 = ₹1,80,000
+
+Animation: Wrap these rows in Framer Motion so they stagger fade-in (opacity: 0 -> 1, x: -10 -> 0) to look like a terminal typing out the logic.
+
+5. EXECUTION RULES (NON-NEGOTIABLE)
+ZERO ERRORS: Must render perfectly. No missing imports. Use lucide-react for icons.
+
+NO DEFAULT STYLES: Do not use default blue focus rings.
+
+Framer Motion: Use <AnimatePresence> to smoothly swap the "Winner" glowing border if the user changes the inputs.

@@ -1,0 +1,82 @@
+# 🚀 Frontend Document Upload Guide (For Devraj)
+
+Hey Devraj! When building the Document Upload UI, it's critical to handle **Form 16** and **Mutual Fund CAS** completely differently. 
+
+Here is exactly how the UI should work and how the data must be formatted to prevent 500 crashes from the backend.
+
+---
+
+## 1. The Core Rule: To Password, or Not To Password?
+
+A huge source of frontend bugs is mixing up the password requirements.
+
+| Document Type | Password Required? | Endpoint |
+| :--- | :--- | :--- |
+| **Form 16 (Part A & B)** | ❌ **No** | `/api/upload-form16` |
+| **Mutual Fund CAS (Detailed)** | ✅ **Yes** (Strictly Required) | `/api/upload-cas` |
+
+### Recommended UI Logic (React/Next.js)
+Your file upload component should look something like this in state:
+1. User selects "Document Type" from a dropdown or radio button (`Form 16` or `CAS`).
+2. If `CAS` is selected ➡️ Unhide an input field `<input type="password" />`.
+3. If `Form 16` is selected ➡️ Keep the password field hidden.
+4. User uploads the PDF file.
+
+---
+
+## 2. Setting Up the Form Data (multipart/form-data)
+
+You **cannot** send the PDF as a standard JSON body. You must construct a native browser `FormData` object.
+
+### A. Uploading Form 16 (No Password)
+```javascript
+const uploadForm16 = async (fileObj, userId) => {
+  const formData = new FormData();
+  
+  // CRITICAL: The names must literally be "user_id" and "file"
+  formData.append('user_id', userId); 
+  formData.append('file', fileObj); 
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload-form16`, {
+    method: 'POST',
+    body: formData, // The browser automatically handles the multipart headers
+  });
+  
+  const data = await response.json();
+  return data;
+};
+```
+
+### B. Uploading CAS (Requires Password)
+```javascript
+const uploadCAS = async (fileObj, password, userId) => {
+  const formData = new FormData();
+  
+  // CRITICAL: The backend will crash if 'password' is not sent here
+  formData.append('user_id', userId);
+  formData.append('password', password); 
+  formData.append('file', fileObj);
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload-cas`, {
+    method: 'POST',
+    body: formData,
+  });
+  
+  const data = await response.json();
+  return data;
+};
+```
+
+---
+
+## 3. Anticipating Errors (Graceful UI Handling)
+
+The Python backend is doing massive mathematical calculations during the upload, so you must account for these error states:
+
+> [!WARNING]
+> The backend extraction takes around `15-20 seconds` to slice through heavily encrypted PDFs. Your frontend must show a **Loading Spinner** for at least 30 seconds before assuming a timeout.
+
+#### Common Backend Rejections to Catch:
+1. **Invalid Password:** `{"detail": "Incorrect CAS password or corrupted PDF"}`
+2. **Missing Form Data:** `{"detail": "Field required"}` (Means you forgot to append `user_id` or `password`).
+3. **Invalid File Type:** If they upload a `.png` or `.docx`, the backend will reject it. Only `.pdf` is supported!

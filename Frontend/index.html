@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AstraGuard — AI-powered Behavioral Financial Intelligence. Stop guessing. Start guarding your financial future." />
+    <title>AstraGuard — Behavioral Finance Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; display: flex; align-items: center; gap: 8px;">
+      <button onclick="window.location.reload()" title="Stop Voice Agent" style="border-radius: 9999px; background-color: #e11d48; color: white; padding: 8px 14px; font-weight: 600; font-size: 12px; font-family: 'Plus Jakarta Sans', sans-serif; border: none; box-shadow: 0 4px 12px rgba(225,29,72,0.25); cursor: pointer; display: flex; align-items: center; gap: 6px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        Stop
+      </button>
+      <button id="omni-open-widget-btn" style="border-radius: 9999px; background-color: #45A29E; color: #0B0C10; padding: 8px 14px; font-weight: 600; font-size: 12px; font-family: 'Plus Jakarta Sans', sans-serif; border: none; box-shadow: 0 4px 12px rgba(69,162,158,0.3); cursor: pointer; display: flex; align-items: center; gap: 6px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+        Voice Guide
+      </button>
+    </div>
+    <script id="omnidimension-web-widget" async src="https://omnidim.io/web_widget.js?secret_key=306ec8c8b881a4b8646120e6a3bbe94c"></script>
+  </body>
+</html>

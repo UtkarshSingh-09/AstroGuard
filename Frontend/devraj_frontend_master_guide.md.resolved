@@ -1,0 +1,102 @@
+# 🚀 AstraGuard: The Frontend Master Guide (For Devraj)
+
+Hey Devraj! This is your definitive master guide for building the AstraGuard frontend. Your goal isn't just to build a financial calculator—your goal is to build an engaging, gamified, and psychologically intelligent financial behavioral guardian.
+
+Because the Python backend handles 100% of the mathematical AI processing, your entire job is to **capture the user's attention visually**.
+
+Here is the exact step-by-step UI/UX flow and the specific dashboard designs required for each feature.
+
+---
+
+## Phase 1: The Onboarding Flow
+
+### 1. Document Upload
+*   The first screen the user sees should ask them to upload their **Form 16** (PDF) and **CAMS Statement** (PDF with password).
+*   When they hit upload, you make a `POST` request to `/api/upload-form16` and `/api/upload-cas`. You will receive a `user_id`.
+
+### 2. Financial DNA Extraction (The Chat)
+*   Instantly drop the user into the **Chat Interface**.
+*   The backend (via `/api/onboard`) will ask them a maximum of 7 strict, hardcoded English questions (Age, Salary, Goals, etc.).
+*   **The Trigger:** You must monitor the JSON response. When the backend finally returns `"status": "complete"`, the onboarding is over. 
+*   *Action:* **Unlock the Main Dashboard** and give them access to the three core math engines.
+
+---
+
+## Phase 2: The 3 Core Dashboards
+
+Once onboarding is physically complete, the user can click into any of the three core simulation screens. 
+
+### 🟢 Dashboard 1: The FIRE Planner
+**Vibe:** A futuristic "Progress Tracker" or a video-game "Goal Screen."
+**API Route:** `POST /api/fire`
+
+*   **A. The Grand "FIRE Age" (The Hero Section)**
+    *   Right at the top, put a massive, gamified number based on the backend's `target_retire_age` vs `estimated_retire_age_current`.
+    *   *Example:* **"🔥 Your Expected FIRE Age: 42"**
+    *   *UI Trick:* Color-code this! Green if they hit their target, Yellow/Red if they are falling behind.
+*   **B. The Mountain Chart (Visualizing the Corpus)**
+    *   Build a gorgeous area chart or line graph that sweeps upwards over time (X-Axis: Age, Y-Axis: ₹ Amount).
+    *   Draw a flat horizontal line across the chart. This is the **Target Corpus** (e.g., ₹7.5 Crores). The curve should intersect this line. People need to physically *see* the magic of compounding interest shooting up in their 40s.
+*   **C. The Reality Check Box**
+    *   Create a slick box highlighting their financial gaps.
+    *   *Example:* "Required Corpus: ₹7,50,00,000" | "Gap: You need an additional ₹12,500/month SIP to hit this goal by age 40."
+*   **D. The AstraGuard Advisor (The AI Bubble)**
+    *   At the bottom, place a Chat Bubble containing the `narration` field from the API. The AI will explain the terrifying math in a calming, human voice (e.g., *"Don't stress! Because of compounding, just increasing your SIP by ₹5k next year gets you back on track."*).
+
+### 🔵 Dashboard 2: The Tax Optimizer
+**Vibe:** A "Victory Dashboard" that instantly highlights how much money we just saved them.
+**API Route:** `POST /api/tax`
+
+*   **A. The Grand Verdict (The Hero Section)**
+    *   Right at the top, a massive bold verdict based on the `optimal_regime` JSON field.
+    *   *Example:* **"✅ YOU SHOULD CHOOSE THE NEW REGIME"**
+    *   Right underneath, in bright green: **"You will save exactly ₹14,200 this year."**
+*   **B. The Head-to-Head Comparison**
+    *   A massive Double Bar Chart. 
+    *   Bar 1 (Red/Grey): `old_regime.total_tax`
+    *   Bar 2 (Green/Blue): `new_regime.total_tax`
+    *   *Psychology:* Seeing the "Old Tax" bar physically taller makes the advice trustworthy.
+*   **C. The Deductions Breakdown Box**
+    *   A clean table showing exactly what the math engine recognized: *Standard Deduction: ₹75k, HRA Exemption: ₹..., 80C Recgonized: ₹...*
+*   **D. The AstraGuard Advisor**
+    *   The standard AI Chat bubble at the bottom containing the `narration`. (e.g., *"Because you rent but don't invest in PPF, the New Regime is vastly superior for you."*)
+
+### 🟠 Dashboard 3: Portfolio X-Ray
+**Vibe:** An analytical, brutally honest "Health Checkup."
+**API Route:** `POST /api/portfolio/xray`
+
+*   **A. The Top Dashboard (The Vitals)**
+    *   **Total Corpus Value:** Big, bold number.
+    *   **XIRR:** The true percentage return.
+    *   **Asset Allocation:** A simple donut chart (Equity % vs Debt %).
+*   **B. The "Overlap Gauge" (Actionable Metric)**
+    *   A visual "Speedometer" UI component using the `overlap_score` from the JSON.
+    *   `< 30%` = Green (Healthy). `> 60%` = Flashing Red (Dangerous concentration risk).
+*   **C. The "Red Flag" Alert Box**
+    *   A dedicated warning section mapping over the `red_flags` array. If we spot hidden "Regular" plan fees, plaster a massive ⚠️ icon warning.
+*   **D. The AstraGuard Advisor**
+    *   The standard AI Chat bubble breaking down the data into action steps (e.g., *"Wait 45 days for your STCG tax window to close, and then exit Fund A."*)
+
+---
+
+## Phase 3: The Ultimate Feature — "The Twilio Intercept"
+
+AstraGuard is a Behavioral Guardian. If the user starts panic-typing in any of our chat screens (e.g., *"The market crashed! I'm selling all my mutual funds!"*), the backend handles the panic automatically.
+
+**You have almost zero backend Twilio code to write.**
+
+Whenever the user is chatting, you must watch the JSON payload that comes back from the API for this specific flag:
+```json
+{
+  "whatsapp_sent": true 
+}
+```
+
+### 🚨 Your UI Action Item:
+If your React code detects `"whatsapp_sent": true`, you must **immediately stall the UI**. Do not let them click any more buttons. You must render a massive, unmissable pop-up modal or a flashing Red Alert Box in the center of the screen:
+
+> **🚨 ASTRAGUARD INTERVENTION:**
+> **We have detected a high-risk behavioral action. Your dedicated AI Advisor has just sent an urgent, personalized message to your WhatsApp.**
+> **Please check your phone immediately before making any final financial decisions!**
+
+*(The Python backend handles the entire WhatsApp delivery via the Twilio API. You just build the roadblock).*

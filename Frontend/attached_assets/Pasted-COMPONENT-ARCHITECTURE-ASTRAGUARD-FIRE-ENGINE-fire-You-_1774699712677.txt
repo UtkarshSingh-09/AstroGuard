@@ -1,0 +1,92 @@
+COMPONENT ARCHITECTURE: ASTRAGUARD FIRE ENGINE (/fire)
+You are an elite React/Tailwind frontend developer. Build the FirePlanner.jsx component for the AstraGuard platform. This is a highly reactive, data-heavy interface. When users adjust the sliders, the data on the right must update dynamically to show the real-time consequences of their financial decisions.
+
+1. STRICT DESIGN SYSTEM & AESTHETICS
+Typography: Use ONLY font-sans (Plus Jakarta Sans). No serif fonts.
+
+Background: bg-[#0B0C10] (Midnight Void).
+
+Premium Glassmorphism: bg-gradient-to-br from-[#1F2833]/80 to-[#1F2833]/30 with backdrop-blur-xl, shadow-2xl, and a crisp border border-white/10 for all panel containers. Use rounded-3xl.
+
+Brand Colors: >   - #45A29E (Secure Teal) - Primary accent for sliders, progress bars, and positive numbers.
+
+#E11D48 (Cyber Crimson) - Used ONLY for shortfall warnings or the "Stress Test" button.
+
+#FFFFFF (Primary Text) & #94A3B8 (Muted Text).
+
+CRITICAL: Do NOT use any Gold, Yellow, or Amber colors.
+
+2. MASTER LAYOUT (Two-Column Asymmetric Grid)
+Wrapper: min-h-screen w-full bg-[#0B0C10] text-white p-6 lg:p-10 flex justify-center.
+
+Container: max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8.
+
+Left Column (Controls): col-span-1 lg:col-span-4 (The Input Panel).
+
+Right Column (Results): col-span-1 lg:col-span-8 (The Consequence Engine).
+
+3. LEFT PANEL: THE CONTROL MATRIX
+Build a glassmorphism card containing custom-styled range sliders and number inputs.
+
+Header: "Financial Parameters" (text-lg font-bold).
+
+The Sliders (Crucial Styling): Hide the default browser styling. Use an appearance-none range input. The track background should be bg-black/50, and the filled portion should be bg-[#45A29E]. The slider thumb should be a crisp white circle.
+
+Input Fields (Create 5):
+
+Current Age (Slider: 20-60)
+
+Target Retirement Age (Slider: 35-70)
+
+Current Monthly SIP (Input: ₹ format)
+
+Existing Corpus (Input: ₹ format)
+
+Target Monthly Draw Post-Retirement (Input: ₹ format)
+
+Reactivity Logic: Wrap the input states in a 300ms debounce. Whenever these values change, simulate a data fetch (mocking POST /api/fire).
+
+4. RIGHT PANEL: THE CONSEQUENCE ENGINE
+This panel displays the results. It is broken into three vertical sections inside one large glass container or three separate stacked glass cards.
+
+Section A: The Topline Summary (Metrics Grid)
+grid grid-cols-1 md:grid-cols-3 gap-6 mb-8.
+
+Metric 1: Target Corpus Needed (e.g., "₹11.43 Cr").
+
+Metric 2: Projected Corpus at Retirement (e.g., "₹9.76 Cr"). If projected < target, color the difference in #E11D48 (Cyber Crimson).
+
+Metric 3: SIP Gap (e.g., "Shortfall: ₹22,000/mo").
+
+Animation: Use Framer Motion so when these numbers change, they don't snap instantly, but instead roll/count up smoothly.
+
+Section B: The Glidepath Visualizer
+Header: "Asset Allocation Glidepath".
+
+Visual: Create a sleek, horizontal stacked bar chart using standard div elements (no external chart libraries needed). Show the split between Equity (bg-[#45A29E]) and Debt (bg-[#1F2833]).
+
+Provide 4 horizontal bars representing age ranges (e.g., "Age 34-44: 80% Equity", "Age 44-48: 60% Equity", "Age 48-50: 40% Equity", "Age 50+: 30% Equity").
+
+Section C: The Consequence Timeline
+This is a vertical timeline detailing age-by-age milestones based on the slider inputs.
+
+Layout: A vertical line border-l-2 border-[#1F2833] ml-4.
+
+Nodes (Map over a mock array): Each node has a small glowing teal dot w-3 h-3 rounded-full bg-[#45A29E] -ml-[7px] mt-1.5.
+
+Node 1: "Age 36 - ₹4.2L compounding advantage locked in."
+
+Node 2: "Age 42 - Emergency Goal fully funded."
+
+Node 3: "Age 50 - Retirement. ₹11.43Cr corpus achieved."
+
+Interaction: As the user changes the "Target Retirement Age" slider, these nodes should use AnimatePresence and motion.div to smoothly slide up, down, or fade out to reflect the new reality.
+
+5. EXECUTION RULES (NON-NEGOTIABLE)
+ZERO ERRORS: The code must be production-ready. No syntax errors or missing imports.
+
+NO DEFAULT STYLES: Do NOT use standard blue browser outlines on inputs. Use focus:ring-1 focus:ring-[#45A29E] outline-none.
+
+FORMATTING: All currency numbers must use the Indian Rupee format (e.g., ₹1,50,000, NOT 150000). Create a quick utility function formatINR(num) to handle this.
+
+Ensure all imports (React, Framer Motion, Lucide Icons) are present.
