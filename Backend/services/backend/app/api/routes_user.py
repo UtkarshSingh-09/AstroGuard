@@ -17,14 +17,15 @@ async def get_user_profile(user_id: str):
 
     # Compute portfolio value from latest results or DNA
     portfolio_value = (
-        inv.get("mutual_funds", 0)
-        + inv.get("ppf", 0)
-        + inv.get("epf", 0)
-        + inv.get("stocks", 0)
+        (inv.get("mutual_funds") or 0)
+        + (inv.get("ppf") or 0)
+        + (inv.get("epf") or 0)
+        + (inv.get("stocks") or 0)
     )
     latest_portfolio = user.get("latest_portfolio_summary") or {}
-    if latest_portfolio.get("total_current_value"):
-        portfolio_value = latest_portfolio["total_current_value"]
+    lp_value = latest_portfolio.get("total_current_value") or latest_portfolio.get("total_value") or 0
+    if lp_value:
+        portfolio_value = lp_value
 
     latest_tax = user.get("latest_tax_result") or {}
     latest_fire = user.get("latest_fire_result") or {}

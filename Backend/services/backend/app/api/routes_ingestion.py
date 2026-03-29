@@ -198,7 +198,11 @@ async def upload_cas(
         portfolio_summary = result.get("portfolio_summary", {})
         dna["existing_investments"]["mutual_funds"] = portfolio_summary.get("total_valuation", 0.0)
         
-        updates = {"financial_dna": dna}
+        updates = {
+            "financial_dna": dna,
+            "cas_funds": funds,  # Save parsed fund data for Portfolio X-Ray
+            "latest_portfolio_summary": portfolio_calc.get("portfolio_summary", {}),
+        }
         mobile = portfolio_summary.get("mobile")
         if mobile:
             updates["phone_number"] = mobile

@@ -36,7 +36,18 @@ async def start_xray(request: PortfolioXrayRequest):
     if request.mode == "mock":
         try:
             job_service.update_job(job.job_id, status=JobStatus.RUNNING, message="Analyzing portfolio")
-            result = analyze_portfolio(request.inputs)
+            
+            # Smart DNA bridge: pull saved CAS funds if no inputs provided
+            actual_inputs = request.inputs
+            if not actual_inputs.get("funds"):
+                user = await users_repo.get_user(request.user_id) or {}
+                saved_funds = user.get("cas_funds", [])
+                if saved_funds:
+                    actual_inputs = {"funds": saved_funds}
+                else:
+                    raise ValueError("No portfolio data found. Please upload your CAS statement first.")
+            
+            result = analyze_portfolio(actual_inputs)
             calc_id = await persist_audit_trail(
                 user_id=request.user_id,
                 calculation_type="portfolio",
