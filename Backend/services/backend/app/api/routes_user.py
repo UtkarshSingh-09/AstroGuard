@@ -50,4 +50,6 @@ async def get_user_profile(user_id: str):
             "sip_gap": latest_fire.get("monthly_sip_needed_additional", 0),
         },
         "financial_dna_complete": bool(dna.get("age") and dna.get("annual_salary")),
+        "_debug_raw": user.get("form16_raw"),
+        "_debug_meta": user.get("form16_metadata"),
     }
