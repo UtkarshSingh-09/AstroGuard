@@ -15,12 +15,27 @@ users_repo = UsersRepository()
 
 class TaxRequest(BaseModel):
     user_id: str = Field(..., min_length=3)
-    inputs: dict
+    inputs: dict = Field(default_factory=dict)
 
 
 @router.post("/tax")
 async def tax_plan(request: TaxRequest):
     try:
+        user = await users_repo.get_user(request.user_id) or {}
+        fin_dna = user.get("financial_dna") or {}
+        
+        if not request.inputs:
+            inv = fin_dna.get("existing_investments", {})
+            request.inputs = {
+                "base_salary": fin_dna.get("annual_salary", fin_dna.get("base_salary", 0)),
+                "hra_received": fin_dna.get("hra_received", 0),
+                "rent_paid_monthly": fin_dna.get("rent_paid_monthly", 0),
+                "city_type": fin_dna.get("city_type", "metro"),
+                "investments_80c": inv.get("ppf", 0) + inv.get("epf", 0),
+                "nps_80ccd1b": inv.get("nps", 0),
+                "home_loan_interest_24b": fin_dna.get("home_loan_interest_annual", 0)
+            }
+
         result = calculate_tax_comparison(request.inputs)
         calculation_id = await persist_audit_trail(
             user_id=request.user_id,

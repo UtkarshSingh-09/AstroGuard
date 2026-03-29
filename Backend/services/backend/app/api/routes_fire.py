@@ -15,12 +15,35 @@ users_repo = UsersRepository()
 
 class FireRequest(BaseModel):
     user_id: str = Field(..., min_length=3)
-    inputs: dict
+    inputs: dict = Field(default_factory=dict)
 
 
 @router.post("/fire")
 async def fire_plan(request: FireRequest):
     try:
+        user = await users_repo.get_user(request.user_id) or {}
+        fin_dna = user.get("financial_dna") or {}
+        
+        if not request.inputs:
+            inv = fin_dna.get("existing_investments", {})
+            salary = fin_dna.get("annual_salary", fin_dna.get("base_salary", 0))
+            monthly_exp = fin_dna.get("monthly_expenses", 0)
+            
+            # Smart defaults if user didn't specify goals
+            target_draw = monthly_exp if monthly_exp > 0 else (salary / 12) * 0.6
+            target_retire = fin_dna.get("age", 30) + 15
+            
+            request.inputs = {
+                "age": fin_dna.get("age", 30),
+                "target_retire_age": target_retire,
+                "annual_salary": salary,
+                "monthly_expenses": monthly_exp,
+                "existing_mf": inv.get("mutual_funds", 0),
+                "existing_ppf": inv.get("ppf", 0),
+                "existing_epf": inv.get("epf", 0),
+                "target_monthly_draw": target_draw,
+            }
+
         result = calculate_fire_plan(request.inputs)
         calculation_id = await persist_audit_trail(
             user_id=request.user_id,
