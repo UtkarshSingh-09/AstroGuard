@@ -28,8 +28,8 @@ python-dotenv>=1.0.1
 tenacity>=9.0.0
 
 # === PDF Extraction (Form 16 & CAS) ===
-pdfplumber>=0.11.0
-casparser>=0.6.0
+pdfplumber>=0.11.9
+casparser>=0.8.0
 
 # === Testing ===
 pytest>=8.3.4
