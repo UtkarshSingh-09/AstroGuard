@@ -29,7 +29,11 @@ tenacity>=9.0.0
 
 # === PDF Extraction (Form 16 & CAS) ===
 pdfplumber>=0.11.9
-casparser>=0.8.0
+casparser-isin
+click
+colorama
+python-dateutil
+rich
 
 # === Testing ===
 pytest>=8.3.4

@@ -27,6 +27,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r /app/requirements.txt && \
     pip install --no-cache-dir -r /app/backend-requirements.txt
 
+# Install casparser without dependencies to prevent pdfminer version looping errors
+RUN pip install --no-cache-dir casparser==0.8.1 --no-deps
+
 # Install python-multipart explicitly for form-data (Form16/CAS upload handling)
 RUN pip install --no-cache-dir python-multipart
 
