@@ -56,4 +56,5 @@ async def get_user_profile(user_id: str):
         "financial_dna_complete": bool(dna.get("age") and dna.get("annual_salary")),
         "_debug_raw": user.get("form16_raw"),
         "_debug_meta": user.get("form16_metadata"),
+        "_debug_cas_funds": user.get("cas_funds"),
     }
