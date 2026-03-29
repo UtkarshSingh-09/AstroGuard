@@ -25,22 +25,23 @@ async def fire_plan(request: FireRequest):
         fin_dna = user.get("financial_dna") or {}
         
         if not request.inputs:
-            inv = fin_dna.get("existing_investments", {})
-            salary = fin_dna.get("annual_salary", fin_dna.get("base_salary", 0))
-            monthly_exp = fin_dna.get("monthly_expenses", 0)
+            inv = fin_dna.get("existing_investments") or {}
+            salary = fin_dna.get("annual_salary") or fin_dna.get("base_salary") or 0
+            monthly_exp = fin_dna.get("monthly_expenses") or 0
             
             # Smart defaults if user didn't specify goals
-            target_draw = monthly_exp if monthly_exp > 0 else (salary / 12) * 0.6
-            target_retire = fin_dna.get("age", 30) + 15
+            target_draw = monthly_exp if monthly_exp > 0 else (salary / 12) * 0.6 if salary else 0
+            age = fin_dna.get("age") or 30
+            target_retire = age + 15
             
             request.inputs = {
-                "age": fin_dna.get("age", 30),
+                "age": age,
                 "target_retire_age": target_retire,
                 "annual_salary": salary,
                 "monthly_expenses": monthly_exp,
-                "existing_mf": inv.get("mutual_funds", 0),
-                "existing_ppf": inv.get("ppf", 0),
-                "existing_epf": inv.get("epf", 0),
+                "existing_mf": inv.get("mutual_funds") or 0,
+                "existing_ppf": inv.get("ppf") or 0,
+                "existing_epf": inv.get("epf") or 0,
                 "target_monthly_draw": target_draw,
             }
 

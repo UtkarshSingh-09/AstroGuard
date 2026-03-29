@@ -25,15 +25,15 @@ async def tax_plan(request: TaxRequest):
         fin_dna = user.get("financial_dna") or {}
         
         if not request.inputs:
-            inv = fin_dna.get("existing_investments", {})
+            inv = fin_dna.get("existing_investments") or {}
             request.inputs = {
-                "base_salary": fin_dna.get("annual_salary", fin_dna.get("base_salary", 0)),
-                "hra_received": fin_dna.get("hra_received", 0),
-                "rent_paid_monthly": fin_dna.get("rent_paid_monthly", 0),
-                "city_type": fin_dna.get("city_type", "metro"),
-                "investments_80c": inv.get("ppf", 0) + inv.get("epf", 0),
-                "nps_80ccd1b": inv.get("nps", 0),
-                "home_loan_interest_24b": fin_dna.get("home_loan_interest_annual", 0)
+                "base_salary": fin_dna.get("annual_salary") or fin_dna.get("base_salary") or 0,
+                "hra_received": fin_dna.get("hra_received") or 0,
+                "rent_paid_monthly": fin_dna.get("rent_paid_monthly") or 0,
+                "city_type": fin_dna.get("city_type") or "metro",
+                "investments_80c": (inv.get("ppf") or 0) + (inv.get("epf") or 0),
+                "nps_80ccd1b": inv.get("nps") or 0,
+                "home_loan_interest_24b": fin_dna.get("home_loan_interest_annual") or 0
             }
 
         result = calculate_tax_comparison(request.inputs)
