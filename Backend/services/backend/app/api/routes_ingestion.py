@@ -141,9 +141,14 @@ async def upload_form16(user_id: str = Form(...), file: UploadFile = File(...)):
             else:
                 dna[k] = v
 
+        # Also save the employee name from Form 16 metadata
+        metadata = result.get("metadata") or {}
+        if metadata.get("employee_name"):
+            dna["name"] = metadata["employee_name"]
+
         await users_repo.upsert_user(
             user_id,
-            {"financial_dna": dna, "form16_raw": result.get("raw_extracted"), "form16_metadata": result.get("metadata")},
+            {"financial_dna": dna, "form16_raw": result.get("raw_extracted"), "form16_metadata": metadata},
         )
 
         tax_inputs = result.get("tax_inputs", {})
