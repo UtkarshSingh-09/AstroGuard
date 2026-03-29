@@ -89,46 +89,38 @@ def _is_extraction_complete(extracted: dict) -> bool:
 
 
 def _get_next_question(extracted: dict, turn_count: int) -> str:
-    """Determine the next question based on what's missing."""
+    """Determine the next question based on what's missing (HARDCODED FLOW)."""
     fin = extracted.get("financial_dna", {})
     beh = extracted.get("behavioral_dna", {})
 
-    # Check required fields first
+    # 1. Basic Info
     if fin.get("age") is None:
         return QUESTION_FLOW[0]
     if fin.get("annual_salary") is None:
         return QUESTION_FLOW[1]
     if fin.get("monthly_expenses") is None:
         return QUESTION_FLOW[2]
-    if fin.get("city_type") is None:
+
+    # 2. Goals
+    goals = fin.get("goals", [])
+    if not goals:
         return QUESTION_FLOW[3]
 
-    # Then investments
+    # 3. Investments (Grouped check)
     inv = fin.get("existing_investments", {})
     if not any(v > 0 for v in inv.values() if isinstance(v, (int, float))):
         return QUESTION_FLOW[4]
 
-    # Goals
-    goals = fin.get("goals", [])
-    if not goals:
+    # 4. Insurance
+    if fin.get("insurance_cover") is None:
+        return QUESTION_FLOW[5]
+
+    # 5. Behavioral DNA
+    if beh.get("last_panic_event") is None and beh.get("panic_threshold") is None:
         return QUESTION_FLOW[6]
 
-    # Insurance
-    if fin.get("insurance_cover") is None:
-        return QUESTION_FLOW[8]
-
-    # Behavioral DNA (the differentiator)
-    if beh.get("last_panic_event") is None:
-        return BEHAVIORAL_QUESTIONS[0]["question"]
-    if beh.get("panic_threshold") is None:
-        return QUESTION_FLOW[11]
-
-    # HRA/rent
-    if fin.get("rent_paid_monthly") is None and fin.get("has_home_loan") is None:
-        return QUESTION_FLOW[12]
-
     # Fallback
-    return "Aur kuch batana hai? Ya main tera plan banana start karun? 🚀"
+    return "Perfect! I have a complete picture of your profile. Shall we run the financial simulations? 🚀"
 
 
 def _parse_llm_response(raw: str) -> dict:
@@ -196,14 +188,12 @@ async def run_dna_agent(
     completion = _calculate_completion(extracted)
     is_complete = _is_extraction_complete(extracted)
 
-    # Determine next question (use LLM's suggestion or our logic)
+    # Determine next question (Strictly deterministic hardcoded flow)
     if is_complete:
         next_q = None
         status = "complete"
     else:
-        llm_next_q = extracted.get("next_question")
-        fallback_q = _get_next_question(extracted, turn_count)
-        next_q = llm_next_q if llm_next_q else fallback_q
+        next_q = _get_next_question(extracted, turn_count)
         status = "gathering"
 
     return {

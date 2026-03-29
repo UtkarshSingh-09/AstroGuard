@@ -13,9 +13,7 @@ RULES:
 2. NEVER guess, assume, or hallucinate any numbers.
 3. If a field is not mentioned, set it to null.
 4. Return ONLY valid JSON. No explanation, no markdown, no extra text.
-5. Respond in Hinglish (Hindi-English mix) for the next_question.
-6. Be warm, conversational, and non-judgmental.
-7. Ask ONE question at a time — never overwhelm the user.
+5. Ask no questions. Your only job is to return the extracted JSON variables.
 
 JSON SCHEMA TO FILL:
 {schema}
@@ -34,14 +32,12 @@ DNA_EXTRACTION_PROMPT = """Conversation so far:
 Based on this conversation, extract all financial information into the JSON schema.
 Also determine:
 1. completion_percentage (0-100): how much of the profile is filled
-2. next_question: what to ask next to fill missing fields (in Hinglish)
-3. status: "gathering" if still missing info, "complete" if all minimum fields filled
+2. status: "gathering" if still missing info, "complete" if all minimum fields filled
 
 Return this exact JSON structure:
 {{
     "status": "<gathering|complete>",
     "completion_percentage": <0-100>,
-    "next_question": "<question in Hinglish or null if complete>",
     "financial_dna": {{
         "age": <int|null>,
         "annual_salary": <float|null>,
@@ -84,25 +80,16 @@ Return this exact JSON structure:
 
 QUESTION_FLOW = [
     # Basic profile
-    "Chalo shuru karte hain! Pehle bata — teri umar kitni hai? 😊",
-    "Aur salary kitni hai teri? Monthly ya yearly — jo bhi comfortable ho.",
-    "Monthly expenses kitne hain approximately? Rent, groceries, EMI sab mila ke?",
-    "Kaunse city mein rehta hai? Metro (Delhi/Mumbai/Bangalore) ya non-metro?",
-    # Investments
-    "Koi existing investments hain? Mutual funds, PPF, FD, stocks — jo bhi ho?",
-    "EPF ya NPS mein kuch hai? Company deduct karti hai?",
-    # Goals
-    "Ab goals ki baat karte hain — kya achieve karna chahta hai? Retirement, ghar, bachche ki padhai, emergency fund — jo bhi ho?",
-    "Iss goal ko kab tak achieve karna hai? Kitne saal mein?",
+    "Let's get started! First, could you tell me your current age?",
+    "And what is your current annual salary? (If you uploaded your Form 16, I'll extract this automatically).",
+    "Approximately how much are your total monthly expenses (Rent, groceries, EMIs)?",
+    "What is your primary financial goal right now? (e.g., Retirement, Buying a house, Building an emergency fund)",
+    # Investments (Grouped)
+    "Great! Do you have any existing investments like Mutual Funds, PPF, FDs, or Stocks? If not, we can move on.",
     # Insurance
-    "Life insurance hai? Term plan ya koi bhi? Kitne ka cover hai?",
-    "Health insurance? Family floater ya individual?",
+    "Just one more thing — do you have any active Life Insurance (Term plan) or Health Insurance coverage? If so, what is the cover amount?",
     # Behavioral (the differentiator)
-    "Ek important question — March 2020 mein jab COVID crash hua tha, tune kya kiya tha? SIP roka? Panic sell kiya? Ya continue kiya?",
-    "Market kitna gire tab tak tu comfortable rehta hai? -5%? -10%? -15%?",
-    # HRA / Home Loan
-    "Rent deta hai? Kitna monthly? Aur company se HRA milta hai?",
-    "Home loan hai? Annual interest kitna pay karta hai?",
+    "Last question: During major market crashes (like March 2020), do you tend to panic sell, stop your SIPs, or continue investing?",
 ]
 
 # ─── Behavioral Seeding Questions ─────────────────────────────────────────────
